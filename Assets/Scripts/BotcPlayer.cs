@@ -3,6 +3,7 @@ using Unity.Netcode;
 using System;
 public class BotcPlayer : NetworkBehaviour
 {
+
     /// <summary>
     /// This is here and not in a seperate file because uhhh, reducing complexity?
     /// </summary>
