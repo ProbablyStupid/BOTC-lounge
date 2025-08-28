@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 movementDirection = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
         rigidbody.AddForce(movementDirection * speed * Time.deltaTime);
-        Debug.Log("Added force of: " +  movementDirection * speed * Time.deltaTime);
+        //Debug.Log("Added force of: " +  movementDirection * speed * Time.deltaTime);
 
         // --- mouse movement ---
 

@@ -12,15 +12,26 @@ public class NetcodeUI : MonoBehaviour
     [SerializeField] Button clientButton;
     [SerializeField] TMP_InputField ipInput;
     [SerializeField] UnityTransport unityTransport;
-    [SerializeField] Camera uiCamera;
+    [SerializeField] Camera startCamera;
+
+    [SerializeField] MasterUI masterUI;
 
     void Start()
     {
+        masterUI = GetComponent<MasterUI>();
+
         hostButton.onClick.AddListener(() => {
             print("Starting host!");
             NetworkManager.Singleton.StartHost();
 
-            uiCamera.enabled = false;
+            startCamera.gameObject.SetActive(false);
+            clientButton.gameObject.SetActive(false);
+            ipInput.gameObject.SetActive(false);
+            hostButton.gameObject.SetActive(false);
+
+            print("Disabled UI components!");
+
+            masterUI.switchToGameState();
         });
         clientButton.onClick.AddListener(() =>
         {
@@ -32,7 +43,12 @@ public class NetcodeUI : MonoBehaviour
 
             NetworkManager.Singleton.StartClient();
 
-            uiCamera.enabled = false;
+            startCamera.gameObject.SetActive(false);
+            clientButton.gameObject.SetActive(false);
+            ipInput.gameObject.SetActive(false);
+            hostButton.gameObject.SetActive(false);
+
+            masterUI.switchToGameState();
         });
     }
 }
