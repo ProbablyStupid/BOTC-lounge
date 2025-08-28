@@ -792,7 +792,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
-    ServerListenAddress: 127.0.0.1
+    ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -936,6 +936,7 @@ MonoBehaviour:
   ipInput: {fileID: 2125010516}
   unityTransport: {fileID: 1185445925}
   startCamera: {fileID: 2093036967}
+  masterUI: {fileID: 0}
 --- !u!114 &1497183254
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 movementDirection = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
+        Vector3 movementDirection = rigidbody.transform.forward * Input.GetAxisRaw("Vertical") + rigidbody.transform.right * Input.GetAxisRaw("Horizontal");
         rigidbody.AddForce(movementDirection * speed * Time.deltaTime);
         //Debug.Log("Added force of: " +  movementDirection * speed * Time.deltaTime);
 
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, mouseClampMin, mouseClampMax);
 
         // rotates the player
-        transform.Rotate(Vector3.up, yRotation);
+        rigidbody.transform.Rotate(Vector3.up, yRotation);
         
         // rotates the camera
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
