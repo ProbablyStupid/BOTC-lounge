@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 729265946305628600}
-  speed: 1
+  speed: 2000
   gravity: 9.8
   playerCamera: {fileID: 6460138386087499995}
   xSensitivity: 1
