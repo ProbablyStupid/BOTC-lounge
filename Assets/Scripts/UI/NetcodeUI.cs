@@ -13,21 +13,32 @@ public class NetcodeUI : MonoBehaviour
     [SerializeField] TMP_InputField ipInput;
     [SerializeField] UnityTransport unityTransport;
     [SerializeField] Camera startCamera;
+    [SerializeField] TMP_InputField nameInput;
+
+    // TODO: implement player name transmission here somehow...
 
     [SerializeField] MasterUI masterUI;
 
     void Start()
     {
-        masterUI = GetComponent<MasterUI>();
-
+        //masterUI = GetComponent<MasterUI>();
+        print("Adding listeners for NetcodeUI!");
         hostButton.onClick.AddListener(() => {
+            if (nameInput.text.Equals(""))
+                return;
+
             print("Starting host!");
+
+            //var nameBytes = System.Text.Encoding.UTF8.GetBytes(nameInput.text);
+            //NetworkManager.Singleton.NetworkConfig.ConnectionData = nameBytes;
+
             NetworkManager.Singleton.StartHost();
 
             startCamera.gameObject.SetActive(false);
             clientButton.gameObject.SetActive(false);
             ipInput.gameObject.SetActive(false);
             hostButton.gameObject.SetActive(false);
+            nameInput.gameObject.SetActive(false);
 
             print("Disabled UI components!");
 
@@ -35,7 +46,13 @@ public class NetcodeUI : MonoBehaviour
         });
         clientButton.onClick.AddListener(() =>
         {
+            if (nameInput.text.Equals(""))
+                return;
+
             print("starting client");
+
+            //var nameBytes = System.Text.Encoding.UTF8.GetBytes(nameInput.text);
+            //NetworkManager.Singleton.NetworkConfig.ConnectionData = nameBytes;
 
             // first set the IP address from the ipInput
             print("Using " + ipInput.text + " as the IP address from the ip Input Field");
@@ -47,6 +64,7 @@ public class NetcodeUI : MonoBehaviour
             clientButton.gameObject.SetActive(false);
             ipInput.gameObject.SetActive(false);
             hostButton.gameObject.SetActive(false);
+            nameInput.gameObject.SetActive(false);
 
             masterUI.switchToGameState();
         });

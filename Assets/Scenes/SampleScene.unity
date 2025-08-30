@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 1185445927}
   - component: {fileID: 1185445926}
   - component: {fileID: 1185445925}
+  - component: {fileID: 1185445928}
   m_Layer: 0
   m_Name: NetworkController
   m_TagString: Untagged
@@ -818,8 +819,8 @@ MonoBehaviour:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: e3b876d1e73168a4aa12f5019e685be6, type: 2}
     TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
+    ClientConnectionBufferTimeout: 30
+    ConnectionApproval: 1
     ConnectionData: 
     EnableTimeResync: 0
     TimeResyncInterval: 30
@@ -855,6 +856,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1185445928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185445924}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c753adee39d6df94b9e13b6839ec6ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1450471454
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +898,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1886661714}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1464011295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1464011296}
+  m_Layer: 0
+  m_Name: PlayerState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1464011296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464011295}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.06926, y: -6.3605742, z: 15.698763}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1497183251
 GameObject:
@@ -936,7 +980,8 @@ MonoBehaviour:
   ipInput: {fileID: 2125010516}
   unityTransport: {fileID: 1185445925}
   startCamera: {fileID: 2093036967}
-  masterUI: {fileID: 0}
+  nameInput: {fileID: 2056012045}
+  masterUI: {fileID: 1497183254}
 --- !u!114 &1497183254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,6 +1089,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2056012045 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5893993002139808923, guid: 5f379133284467548b9994d91e24e4d2, type: 3}
+  m_PrefabInstance: {fileID: 2125010515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2093036964
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,3 +1388,4 @@ SceneRoots:
   - {fileID: 1156431373}
   - {fileID: 2093036968}
   - {fileID: 1497183252}
+  - {fileID: 1464011296}

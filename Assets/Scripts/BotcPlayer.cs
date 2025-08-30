@@ -1,13 +1,16 @@
 using UnityEngine;
 using Unity.Netcode;
 using System;
+using TMPro;
 public class BotcPlayer : NetworkBehaviour
 {
+
+    [SerializeField] TextMeshPro playerNameTag;
 
     /// <summary>
     /// This is here and not in a seperate file because uhhh, reducing complexity?
     /// </summary>
-    [SerializeField] NetworkVariable<string> playerName = new NetworkVariable<string>("goofy");
+    NetworkVariable<string> playerName = new NetworkVariable<string>("goofy");
 
 
     /// <summary>
@@ -25,7 +28,7 @@ public class BotcPlayer : NetworkBehaviour
     /// <summary>
     /// In case the player is a Storyteller, the RoleName is irrelevant, but is ideally set to "na".
     /// </summary>
-    [SerializeField] NetworkVariable<string> BOTC_RoleName = new NetworkVariable<string>("unassigned");
+    NetworkVariable<string> BOTC_RoleName = new NetworkVariable<string>("unassigned");
 
     // The server does not do logic for this! It is the job of the storyteller to manage this variable.
     [SerializeField] NetworkVariable<bool> BOTC_PlayerAlive = new NetworkVariable<bool>(true);
@@ -42,5 +45,12 @@ public class BotcPlayer : NetworkBehaviour
     }
 
     public bool GetAlive() { return BOTC_PlayerAlive.Value; }
+
+    public void SetName(string name)
+    {
+        print("Set name of player to " + name);
+        playerNameTag.text = name;
+        playerName.Value = name;
+    }
 
 }
