@@ -29,8 +29,8 @@ public class NetcodeUI : MonoBehaviour
 
             print("Starting host!");
 
-            //var nameBytes = System.Text.Encoding.UTF8.GetBytes(nameInput.text);
-            //NetworkManager.Singleton.NetworkConfig.ConnectionData = nameBytes;
+            var nameBytes = System.Text.Encoding.UTF8.GetBytes(nameInput.text);
+            NetworkManager.Singleton.NetworkConfig.ConnectionData = nameBytes;
 
             NetworkManager.Singleton.StartHost();
 
@@ -51,8 +51,8 @@ public class NetcodeUI : MonoBehaviour
 
             print("starting client");
 
-            //var nameBytes = System.Text.Encoding.UTF8.GetBytes(nameInput.text);
-            //NetworkManager.Singleton.NetworkConfig.ConnectionData = nameBytes;
+            var nameBytes = System.Text.Encoding.UTF8.GetBytes(nameInput.text);
+            NetworkManager.Singleton.NetworkConfig.ConnectionData = nameBytes;
 
             // first set the IP address from the ipInput
             print("Using " + ipInput.text + " as the IP address from the ip Input Field");

@@ -16,11 +16,15 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float xRotation = 0.0f;
 
+    [SerializeField] Vector3 desiredMovement;
+
     void Update()
     {
         Vector3 movementDirection = rigidbody.transform.forward * Input.GetAxisRaw("Vertical") + rigidbody.transform.right * Input.GetAxisRaw("Horizontal");
         rigidbody.AddForce(movementDirection * speed * Time.deltaTime);
         //Debug.Log("Added force of: " +  movementDirection * speed * Time.deltaTime);
+
+        desiredMovement = movementDirection * speed * Time.deltaTime;
 
         // --- mouse movement ---
 

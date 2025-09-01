@@ -23,5 +23,5 @@ public class BotcMaster : NetworkBehaviour
     /// 3 - Voting
     /// 4 - Night
     /// </summary>
-    [SerializeField] NetworkVariable<int> BOTC_time = new NetworkVariable<int>(1);
+    NetworkVariable<int> BOTC_time = new NetworkVariable<int>(1);
 }

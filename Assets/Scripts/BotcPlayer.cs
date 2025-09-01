@@ -2,6 +2,8 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 using TMPro;
+using Unity.Collections;
+
 public class BotcPlayer : NetworkBehaviour
 {
 
@@ -9,8 +11,14 @@ public class BotcPlayer : NetworkBehaviour
 
     /// <summary>
     /// This is here and not in a seperate file because uhhh, reducing complexity?
+    /// 
+    /// Note:
+    /// NetworkVariables in Unity Netcode need a string of constant size. Since the
+    /// default 'string' is changeable, it cannot be used inside a network variable.
+    /// 
     /// </summary>
-    NetworkVariable<string> playerName = new NetworkVariable<string>("goofy");
+    [SerializeField] NetworkVariable<FixedString64Bytes> playerName = new NetworkVariable<FixedString64Bytes>("goofy");
+    string localName = "goofy";
 
 
     /// <summary>
@@ -23,15 +31,15 @@ public class BotcPlayer : NetworkBehaviour
     /// 
     /// </summary>
 
-    [SerializeField] NetworkVariable<int> BOTC_PlayerType = new NetworkVariable<int>(1);
+    NetworkVariable<int> BOTC_PlayerType = new NetworkVariable<int>(1);
 
     /// <summary>
     /// In case the player is a Storyteller, the RoleName is irrelevant, but is ideally set to "na".
     /// </summary>
-    NetworkVariable<string> BOTC_RoleName = new NetworkVariable<string>("unassigned");
+    NetworkVariable<FixedString64Bytes> BOTC_RoleName = new NetworkVariable<FixedString64Bytes>("unassigned");
 
     // The server does not do logic for this! It is the job of the storyteller to manage this variable.
-    [SerializeField] NetworkVariable<bool> BOTC_PlayerAlive = new NetworkVariable<bool>(true);
+    NetworkVariable<bool> BOTC_PlayerAlive = new NetworkVariable<bool>(true);
 
 
     public void Revive()
@@ -46,11 +54,61 @@ public class BotcPlayer : NetworkBehaviour
 
     public bool GetAlive() { return BOTC_PlayerAlive.Value; }
 
-    public void SetName(string name)
+    public void SetName(FixedString64Bytes name)
     {
-        print("Set name of player to " + name);
-        playerNameTag.text = name;
+        Debug.Log("Set name of player to " + name + " at " + playerNameTag);
+
+        // this is stupid, but Unity is forcing us to do this ToString() nonsense...
+        //playerNameTag.text = name.ToString();
+        playerNameTag.SetText(name.ToString());
+        
+        // this step is not necessary because the change is triggered through the network variable.
+        //  playerName.Value = name;
+        
+        
+        localName = name.ToString();
+    }
+
+    public bool CompareName(FixedString64Bytes name)
+    {
+        return name.ToString().Equals(playerName.Value.ToString());
+    }
+
+    void OnPlayerNameValueChanged(FixedString64Bytes previousValue, FixedString64Bytes newValue)
+    {
+        Debug.Log("OnPlayerNameValueChanged -> called! newValue " + newValue);
+        SetName(newValue);
+    }
+
+    public void Awake()
+    {
+        Debug.Log("BOTC player is awake " + OwnerClientId);
+        playerName.OnValueChanged += OnPlayerNameValueChanged;
+    }
+
+    public void Start()
+    {
+        Debug.Log("Starting BotcPlayer");
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log("On Spawn triggered!");
+        if (IsOwner)
+        {
+            Debug.Log("Setting name of player.");
+            requestMyNameServerRpc(OwnerClientId);
+        }
+    }
+
+    [ServerRpc]
+    void requestMyNameServerRpc(ulong clientId)
+    {
+        Debug.Log("Running requestMyNameServerRpc");
+        var playerManager = FindFirstObjectByType<ServerPlayerManagement>();
+        FixedString64Bytes name = playerManager.getPlayerName(clientId);
         playerName.Value = name;
+        Debug.Log("Updated playerName " + name);
     }
 
 }
