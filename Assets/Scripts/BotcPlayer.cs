@@ -100,6 +100,12 @@ public class BotcPlayer : NetworkBehaviour
         {
             Debug.Log("Setting name of player.");
             requestMyNameServerRpc(OwnerClientId);
+
+            // set us as the clocktower's desired transform
+            // this may be a stupid way to find the clocktower, but it works for now
+            GameObject clocktower = GameObject.FindGameObjectWithTag("Clocktower");
+            Timer timer = clocktower.GetComponent<Timer>();
+            timer.RegisterPlayer(transform);
         }
     }
 
