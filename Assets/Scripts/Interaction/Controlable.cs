@@ -1,9 +1,23 @@
+using System;
 using UnityEngine;
 
 public class Controlable : Interactible
 {
+    Action listener;
+
     public override void Interact(PlayerInteraction interacter)
     {
-        throw new System.NotImplementedException();
+        listener?.Invoke();
+    }
+
+    public void RegisterListener(Action Listener)
+    {
+        // stupidity of capitalization. This will cause confusion later!
+        listener = Listener;
+    }
+
+    public void ClearListener()
+    {
+        listener = null;
     }
 }

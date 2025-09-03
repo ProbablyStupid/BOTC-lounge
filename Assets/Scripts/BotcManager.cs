@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -5,9 +6,9 @@ using UnityEngine;
 /// 
 /// If the instance is the server (logic in the Start method), it will spawn a BotcMaster, which is a network object.
 /// </summary>
-public class BotcManager:MonoBehaviour
+public class BotcManager:NetworkBehaviour
 {
-    public void Start()
+    public void Awake()
     {
         // TODO: implement condition for detecting server here!
         bool isServer = false;

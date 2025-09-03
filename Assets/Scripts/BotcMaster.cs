@@ -2,26 +2,41 @@ using UnityEngine;
 using Unity.Netcode;
 
 
-/// <summary>
-/// 
-///     The BotcMaster is responsible for storing and managing attributes that
-///     globally affect players.
-///     This includes the time / stage of the day.
-///     There should only EVER be one BotcMaster in any game. Otherwise we'll have a big problem!
-///     
-///     Important Note: This architecture does not allow for a new game to start in the same world.
-///                     New players and a new BotcMaster would need to be generated.
-/// 
-/// </summary>
+// this class should only exist on the server
 public class BotcMaster : NetworkBehaviour
 {
+    [SerializeField] NetworkVariable<bool> inRound = new NetworkVariable<bool>(false);
+
+    // BOTCRound is not yet serializable...
+    NetworkVariable<BOTCRound> currentRound = new NetworkVariable<BOTCRound>(null);
+
+    // control elements -----------------------------------------------------------------------------
+    [SerializeField] Controlable start_round;
+
     /// <summary>
-    /// The stage of the day in the BOTC game.
-    /// 
-    /// 1 - Generic day
-    /// 2 - Collaborative
-    /// 3 - Voting
-    /// 4 - Night
+    /// Call before RegisterPlayers!
     /// </summary>
-    NetworkVariable<int> BOTC_time = new NetworkVariable<int>(1);
+    public void NewRound()
+    {
+        currentRound.Value = new BOTCRound();
+    }
+
+    // TODO: implement this now!
+    public void RegisterPlayers()
+    {
+        // do we simply take all players and force them into the next round?
+
+        BotcPlayer[] players = GetComponents<BotcPlayer>();
+        currentRound.Value.SetPlayers(players);
+    }
+
+    public void StartRound()
+    {
+        currentRound.Value.Initialize();
+    }
+
+    public BOTCRound CurrentRound()
+    {
+        return currentRound.Value;
+    }
 }

@@ -30,17 +30,19 @@ public class BotcPlayer : NetworkBehaviour
     /// 3 -> Observer [to come]
     /// 
     /// </summary>
-
-    NetworkVariable<int> BOTC_PlayerType = new NetworkVariable<int>(1);
+    [SerializeField] public NetworkVariable<int> BOTC_PlayerType = new NetworkVariable<int>(1);
 
     /// <summary>
     /// In case the player is a Storyteller, the RoleName is irrelevant, but is ideally set to "na".
     /// </summary>
-    NetworkVariable<FixedString64Bytes> BOTC_RoleName = new NetworkVariable<FixedString64Bytes>("unassigned");
+    [SerializeField] public NetworkVariable<FixedString64Bytes> BOTC_RoleName = new NetworkVariable<FixedString64Bytes>("unassigned");
 
     // The server does not do logic for this! It is the job of the storyteller to manage this variable.
-    NetworkVariable<bool> BOTC_PlayerAlive = new NetworkVariable<bool>(true);
+    [SerializeField] public NetworkVariable<bool> BOTC_PlayerAlive = new NetworkVariable<bool>(true);
 
+    // this is relevant so the player knows which round to report to
+    // this is not used anywhere :( ... yet!
+    public BOTCRound ParentRound = null;
 
     public void Revive()
     {
@@ -110,5 +112,4 @@ public class BotcPlayer : NetworkBehaviour
         playerName.Value = name;
         Debug.Log("Updated playerName " + name);
     }
-
 }
