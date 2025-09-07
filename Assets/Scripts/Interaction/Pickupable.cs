@@ -7,7 +7,7 @@ public class Pickupable : Interactible
         // this way around because we don't know whether we have a current holder.
         if (interacter.Equals(currentHolder))
         {
-            Debug.Log("Getting picked up by interacter " + interacter);
+            Debug.Log("Getting dropped by interacter " + interacter);
 
             currentHolder = null;
             isHeld.Value = false;

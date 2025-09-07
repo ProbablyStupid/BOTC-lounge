@@ -92,6 +92,10 @@ public class PlayerInteraction : NetworkBehaviour
         {
             OnInteractionKeyPress();
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            OnDestroyKeyPress();
+        }
 
         Debug.DrawRay(raycastingCamera.transform.position, raycastingCamera.transform.forward * pickup_distance);
     }
@@ -143,6 +147,26 @@ public class PlayerInteraction : NetworkBehaviour
         } else
         {
             AttemptInteraction();
+        }
+    }
+
+    public void OnDestroyKeyPress()
+    {
+
+        if (Physics.Raycast(raycastingCamera.transform.position, raycastingCamera.transform.forward, out RaycastHit rayHit, pickup_distance))
+        {
+            var hit = rayHit.transform.gameObject;
+            Debug.Log("PlayerInteraction -> hit an object : " + hit);
+
+            if (hit.tag == "Interact")
+            {
+                Debug.Log("Destroying game object " + hit);
+                Destroy(hit);
+            }
+        }
+        else
+        {
+            Debug.Log("Empty Raycast for interaction");
         }
     }
 }

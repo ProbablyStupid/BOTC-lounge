@@ -8,13 +8,16 @@ using UnityEngine;
 /// </summary>
 public class BotcManager:NetworkBehaviour
 {
+    [SerializeField] GameObject masterPrefab;
+
     public void Awake()
     {
         // TODO: implement condition for detecting server here!
         bool isServer = false;
         if (isServer)
         {
-            // TODO: spawn the BotcMaster here!
+            Debug.Log("Running on Server! Instantiating master!");
+            Instantiate(masterPrefab);
         }
     }
 }

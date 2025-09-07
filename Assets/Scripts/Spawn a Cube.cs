@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class SpawnaCube : MonoBehaviour
@@ -16,6 +17,7 @@ public class SpawnaCube : MonoBehaviour
 
         // also, this is stupid because it puts the new cube where the old cube was initially,
         // but this is just for testing, so who cares??
-        Instantiate(cubeToSpawn);
+        GameObject cube = Instantiate(cubeToSpawn);
+        cube.GetComponent<NetworkObject>().Spawn();
     }
 }
