@@ -1451,7 +1451,7 @@ GameObject:
   - component: {fileID: 1751702455}
   m_Layer: 0
   m_Name: Seat
-  m_TagString: Untagged
+  m_TagString: Interact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1599,6 +1599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b3099050b0eb34b9ff009151a8a1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assignedPlayer: {fileID: 0}
+  thisControlable: {fileID: 1751702455}
+  sitting: 0
 --- !u!1 &1785822900
 GameObject:
   m_ObjectHideFlags: 0

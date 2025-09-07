@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class BOTCSeat : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] BotcPlayer assignedPlayer = null;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] Controlable thisControlable;
+
+    [SerializeField] bool sitting = false;
+
+    public void Start()
     {
-        
+        thisControlable.RegisterListener(OnInteraction);
+    }
+    public void OnInteraction()
+    {
+        if (assignedPlayer == null)
+        {
+            assignedPlayer = thisControlable.GetInteractor().gameObject.GetComponent<BotcPlayer>();
+            assignedPlayer.AssignSeat(this);
+        }
+
+        sitting = !sitting;
     }
 }

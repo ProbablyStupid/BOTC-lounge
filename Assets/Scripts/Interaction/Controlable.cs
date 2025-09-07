@@ -5,9 +5,17 @@ public class Controlable : Interactible
 {
     Action listener;
 
+    PlayerInteraction latestInteracter;
+
     public override void Interact(PlayerInteraction interacter)
     {
+        latestInteracter = interacter;
         listener?.Invoke();
+    }
+
+    public PlayerInteraction GetInteractor()
+    {
+        return latestInteracter;
     }
 
     public void RegisterListener(Action Listener)

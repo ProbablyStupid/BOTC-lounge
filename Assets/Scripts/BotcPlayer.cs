@@ -44,6 +44,21 @@ public class BotcPlayer : NetworkBehaviour
     // this is not used anywhere :( ... yet!
     public BOTCRound ParentRound = null;
 
+    public BOTCSeat mySeat = null;
+
+    public void AssignSeat(BOTCSeat seat)
+    {
+        if (mySeat != null) 
+            return;
+        
+        mySeat = seat;
+    }
+
+    public void ClearSeat()
+    {
+        mySeat = null;
+    }
+
     public void Revive()
     {
         BOTC_PlayerAlive.Value = true;
