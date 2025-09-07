@@ -20,4 +20,10 @@ public class Controlable : Interactible
     {
         listener = null;
     }
+
+    public override void Destroy()
+    {
+        Debug.Log("Cannot destroy controllables!");
+        // do nothing
+    }
 }

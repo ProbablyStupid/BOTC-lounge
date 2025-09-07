@@ -43,4 +43,10 @@ public class Pickupable : Interactible
 
         Debug.Log("Pickupable-Interaction failed!");
     }
+
+    public override void Destroy()
+    {
+        Debug.Log("Destroying self " + this.ToString());
+        Destroy(gameObject);
+    }
 }

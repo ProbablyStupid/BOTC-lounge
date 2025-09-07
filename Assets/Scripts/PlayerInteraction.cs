@@ -161,7 +161,8 @@ public class PlayerInteraction : NetworkBehaviour
             if (hit.tag == "Interact")
             {
                 Debug.Log("Destroying game object " + hit);
-                Destroy(hit);
+                //Destroy(hit);
+                hit.GetComponent<Interactible>().Destroy();
             }
         }
         else

@@ -32,6 +32,8 @@ public abstract class Interactible : NetworkBehaviour
     /// <param name="interacter"></param>
     public abstract void Interact(PlayerInteraction interacter);
 
+    public abstract void Destroy();
+
     public GameObject GetGameObject()
     {
         return gameObject;
