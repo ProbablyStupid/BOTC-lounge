@@ -8,16 +8,30 @@ using UnityEngine;
 /// </summary>
 public class BotcManager:NetworkBehaviour
 {
+    [SerializeField] private bool created = false;
+
     [SerializeField] GameObject masterPrefab;
 
-    public void Awake()
+    public void Start()
     {
-        // TODO: implement condition for detecting server here!
-        bool isServer = false;
-        if (isServer)
+        if (IsServer)
         {
             Debug.Log("Running on Server! Instantiating master!");
             Instantiate(masterPrefab);
+            created = true;
+        } else
+        {
+            Debug.Log("Running on not server! Not creating BotcMaster!");
+        }
+    }
+
+    public void Update()
+    {
+        if (IsServer && !created)
+        {
+            Debug.Log("Running on Server! Instantiating master!");
+            Instantiate(masterPrefab);
+            created = true;
         }
     }
 }

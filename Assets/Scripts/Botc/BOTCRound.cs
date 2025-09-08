@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 
-public class BOTCRound : NetworkBehaviour, IEquatable<BOTCRound>
+public class BOTCRound : NetworkBehaviour
 {
     [SerializeField] private long id = 0;
 
@@ -69,5 +69,10 @@ public class BOTCRound : NetworkBehaviour, IEquatable<BOTCRound>
     {
         // Stupid C#. Why am I allowed to access a private member of a different instance???
         return (other.id == this.id);
+    }
+
+    public BotcPlayer[] GetPlayers()
+    {
+        return players;
     }
 }
