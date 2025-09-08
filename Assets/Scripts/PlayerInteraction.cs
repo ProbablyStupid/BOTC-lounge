@@ -121,6 +121,7 @@ public class PlayerInteraction : NetworkBehaviour
 
         distanceToHoldPosition = Mathf.Clamp(distanceToHoldPosition, 0.0f, 1.0f);
         force *= distanceToHoldPosition;
+        force *= Time.deltaTime;
 
         heldRigidbody.AddForce(force, ForceMode.VelocityChange);
     }
