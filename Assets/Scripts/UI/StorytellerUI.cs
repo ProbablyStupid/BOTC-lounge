@@ -10,6 +10,8 @@ public class StorytellerUI : MonoBehaviour
 
     [SerializeField] BotcPlayer ownedPlayer = null;
 
+    [SerializeField] PlayerMovement playerMovement = null;
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -37,15 +39,16 @@ public class StorytellerUI : MonoBehaviour
 
         if (enabled)
         {
-            // Set the mouse free for the player to interact
+            playerMovement.Unlock();
         } else 
         {
-            // Give the mouse back to PlayerMovement
+            playerMovement.Lock();
         }
     }
 
     public void AssignPlayer(BotcPlayer player)
     {
         ownedPlayer = player;
+        playerMovement = player.gameObject.GetComponent<PlayerMovement>();
     }
 }

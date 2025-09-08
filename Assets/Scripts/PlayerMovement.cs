@@ -18,8 +18,21 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Vector3 desiredMovement;
 
+    [SerializeField] bool mouseLocked = true;
+
+    public void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void Update()
     {
+        if (!mouseLocked)
+        {
+            return;
+        }
+
         Vector3 movementDirection = rigidbody.transform.forward * Input.GetAxisRaw("Vertical") + rigidbody.transform.right * Input.GetAxisRaw("Horizontal");
         rigidbody.AddForce(movementDirection * speed * Time.deltaTime);
         //Debug.Log("Added force of: " +  movementDirection * speed * Time.deltaTime);
@@ -37,5 +50,19 @@ public class PlayerMovement : MonoBehaviour
         
         // rotates the camera
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+    }
+
+    public void Lock()
+    {
+        mouseLocked = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void Unlock()
+    {
+        mouseLocked = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
