@@ -3,6 +3,7 @@ using Unity.Netcode;
 using System;
 using TMPro;
 using Unity.Collections;
+using System.Security.Cryptography;
 
 public class BotcPlayer : NetworkBehaviour
 {
@@ -97,15 +98,33 @@ public class BotcPlayer : NetworkBehaviour
         SetName(newValue);
     }
 
+    void OnRoleValueChanged(int previousValue, int newValue)
+    {
+        // something?
+        if (newValue == 2)
+        {
+            Debug.Log("You are the storyteller!");
+        } else if (newValue == 1)
+        {
+            Debug.Log("You are a player");
+        }
+    }
+
     public void Awake()
     {
         Debug.Log("BOTC player is awake " + OwnerClientId);
         playerName.OnValueChanged += OnPlayerNameValueChanged;
+        BOTC_PlayerType.OnValueChanged += OnRoleValueChanged;
     }
 
     public void Start()
     {
         Debug.Log("Starting BotcPlayer");
+
+        // hideously inefficient, but it'll work for now
+        StorytellerUI storytellerUI = FindFirstObjectByType<StorytellerUI>();
+        Debug.Log("StorytellerUI Found -> " + storytellerUI.name);
+        storytellerUI.AssignPlayer(this);
     }
 
     public override void OnNetworkSpawn()
@@ -122,6 +141,11 @@ public class BotcPlayer : NetworkBehaviour
             Timer timer = clocktower.GetComponent<Timer>();
             timer.RegisterPlayer(transform);
         }
+    }
+
+    public void SetPlayerType(int type)
+    {
+        BOTC_PlayerType.Value = type;
     }
 
     [ServerRpc]
