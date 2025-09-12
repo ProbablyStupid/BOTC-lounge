@@ -148,6 +148,16 @@ public class BotcPlayer : NetworkBehaviour
         BOTC_PlayerType.Value = type;
     }
 
+    public string GetPlayerName()
+    {
+        return playerName.Value.ToString();
+    }
+
+    public bool HasSeat()
+    {
+        return !(mySeat == null);
+    }
+
     [ServerRpc]
     void requestMyNameServerRpc(ulong clientId)
     {

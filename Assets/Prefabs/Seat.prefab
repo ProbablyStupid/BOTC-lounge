@@ -302,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignedPlayer: {fileID: 0}
   thisControlable: {fileID: 197565488890367416}
+  playerName: {fileID: 3632428450226814846}
   sitting: 0
 --- !u!114 &8433830815596411168
 MonoBehaviour:
@@ -315,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3543049296
+  GlobalObjectIdHash: 1503294310
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
