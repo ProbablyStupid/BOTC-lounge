@@ -98,8 +98,8 @@ public class StorytellerUI : NetworkBehaviour
             master.NewRound();
         }
 
-        master.StartRound();
         master.RegisterPlayers();
+        master.StartRound();
         master.GetCommonArea().Regenerate(master.CurrentRound().GetPlayers().Length);
     }
 }

@@ -37,8 +37,8 @@ public class BotcMaster : NetworkBehaviour
     {
         // do we simply take all players and force them into the next round?
 
-        BotcPlayer[] players = GetComponents<BotcPlayer>();
-        Debug.Log("found players");
+        BotcPlayer[] players = FindObjectsByType<BotcPlayer>(FindObjectsSortMode.None);
+        Debug.Log("found players " + players);
         foreach (var player in players)
         {
             Debug.Log(player.name);

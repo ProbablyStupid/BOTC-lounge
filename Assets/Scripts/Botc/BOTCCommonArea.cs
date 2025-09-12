@@ -27,9 +27,11 @@ public class BOTCCommonArea : NetworkBehaviour
     
     void PrefabGeneration()
     {
-        GameObject chairsObject = Instantiate(chairPrefab);
+        // Do not make a Typo here! It needs to be "chairsPrefab" not "chairPrefab" (Plural v. Singular)!!
+        GameObject chairsObject = Instantiate(chairsPrefab);
         chairsObject.GetComponent<NetworkObject>().Spawn();
-        chairsObject.transform.parent = seatsParent;
+        //chairsObject.transform.parent = seatsParent;
+        chairsObject.transform.parent = transform;
         chairsObject.transform.position = center.position;
 
         chairs = chairsObject.GetComponentsInChildren<Transform>();
