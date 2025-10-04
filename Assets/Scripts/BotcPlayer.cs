@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 public class BotcPlayer : NetworkBehaviour
 {
 
+    [SerializeField] public NetworkVariable<ulong> myNetworkId = new NetworkVariable<ulong>();
+
     [SerializeField] TextMeshPro playerNameTag;
 
     /// <summary>
@@ -140,6 +142,10 @@ public class BotcPlayer : NetworkBehaviour
             GameObject clocktower = GameObject.FindGameObjectWithTag("Clocktower");
             Timer timer = clocktower.GetComponent<Timer>();
             timer.RegisterPlayer(transform);
+
+            // This is likely very stupid, and there is most definitely a Unity Netcode way to achieve this, but I'm too lazy
+            // for that right now. This will work fine. The overhead is manageable.
+            myNetworkId.Value = OwnerClientId;
         }
     }
 
