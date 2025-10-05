@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 821037550718702285}
   - component: {fileID: 75085818312101494}
   - component: {fileID: 3455050253812273685}
+  - component: {fileID: 227552659993245194}
   m_Layer: 0
   m_Name: BOTC_MASTER
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2710453132
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -73,5 +74,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inRound:
     m_InternalValue: 0
+  currentRound: {fileID: 0}
   start_round: {fileID: 0}
   commonArea: {fileID: 0}
+--- !u!114 &227552659993245194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65256999623857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34b39df0cc7dc8418ca092218a2b876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
