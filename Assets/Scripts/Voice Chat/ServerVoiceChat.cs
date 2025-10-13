@@ -18,6 +18,10 @@ public class ServerVoiceChat : NetworkBehaviour
 
     void OnReceiveFromClient(ulong senderClientId, FastBufferReader reader)
     {
+        // to prevent recursive messages
+        //if (senderClientId == OwnerClientId) 
+        //    return;
+
         print("(I am the server) -> Received VoiceData from client!!!");
 
         // retrieving the voice data. I'm hoping Unity handles race conditions.
@@ -26,19 +30,21 @@ public class ServerVoiceChat : NetworkBehaviour
         reader.ReadBytesSafe(ref pcmBytes, byteCount, 0);
 
         // create the new message
-        int headerSize = sizeof(int);
+        int headerSize = sizeof(ulong) + sizeof(int);
         FastBufferWriter writer = new FastBufferWriter(headerSize + byteCount, Allocator.Temp);
-        writer.TryBeginWrite(sizeof(int) + byteCount);
+        writer.TryBeginWrite(headerSize + byteCount);
+        writer.WriteValueSafe<ulong>(senderClientId); // original sender
         writer.WriteValueSafe<int>(byteCount);
         writer.WriteBytes(pcmBytes, byteCount, 0);
 
         // send the message to all players, except for 0 and the sender.
+        // Note that this does not allow a HOST, where the player is also the server!
         var targets = NetworkManager.Singleton.ConnectedClientsIds.Where(id => id != senderClientId && id != NetworkManager.ServerClientId).ToList();
         //var targets = NetworkManager.Singleton.ConnectedClientsIds.ToList();
         if (targets.Count > 0)
         {
             print("(I am the server) -> Sending voice data to clients!");
-            NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage("VoiceData", targets, writer, NetworkDelivery.UnreliableSequenced);
+            NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage("VoiceReturn", targets, writer, NetworkDelivery.UnreliableSequenced);
         }
     }
 

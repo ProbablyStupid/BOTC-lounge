@@ -846,13 +846,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 1150131908462709668}
   micClip: {fileID: 0}
   micDevice: 
   sampleRate: 16000
   lastReadPosition: 0
   chunkMs: 20
   chunkSamples: 0
+  myAudioSource: {fileID: 0}
 --- !u!82 &1150131908462709668
 AudioSource:
   m_ObjectHideFlags: 0
@@ -965,6 +966,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   myAudioSource: {fileID: 1150131908462709668}
   myBotcPlayer: {fileID: 6950286740063112251}
+  resampledLength: 0
+  bufferSize: 0
+  maxBufferSize: 48000
 --- !u!1 &7671133979106730436
 GameObject:
   m_ObjectHideFlags: 0

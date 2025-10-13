@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using Unity.Netcode;
+using Unity.VisualScripting;
+
 //using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
@@ -18,6 +21,8 @@ public class ClientVoicePlayback : NetworkBehaviour
 
     [SerializeField] int maxBufferSize = 48000;
 
+    [SerializeField] bool test = false;
+
     // per-speaker FIFO buffer
     // private readonly Dictionary<ulong, Queue<float>> buffers = new();
 
@@ -30,7 +35,13 @@ public class ClientVoicePlayback : NetworkBehaviour
 
     private void Start()
     {
-        NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler("VoiceData", OnVoiceDataReceived);
+        if (!IsOwner)
+        {
+            print("Registering " + OwnerClientId + " with ClientVoiceHandler!");
+            FindFirstObjectByType<ClientVoiceHandler>().RegisterPlayerId(OwnerClientId, this);
+        }
+
+        //NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler("VoiceReturn", OnVoiceDataReceived);
 
         sampleOutRate = AudioSettings.outputSampleRate;
 
@@ -43,97 +54,14 @@ public class ClientVoicePlayback : NetworkBehaviour
         print("Audio playback at " + sampleOutRate + " samples per second (hz) with a ratio of " + sampleRatio);
     }
 
-    void OnVoiceDataReceived(ulong senderid, FastBufferReader reader)
+    
+
+    public void EnqueueSamples(float[] samples)
     {
-        //print("(I am a client) -> receiving voice data!");
-
-        //reader.ReadValueSafe(out ulong originalSenderId);
-
-        // Here we need to figure out whether we are responsible for playing back this Audio.
-        // This is a stupid way of doing this!
-        //
-        // Do note that we do NOT want to play this audio if the client we are on is our owner. Then we would be hearing ourselves.
-        // if (originalSenderId != myBotcPlayer.myNetworkId.Value && originalSenderId != NetworkManager.LocalClientId) 
-        //    return;
-
-        reader.ReadValueSafe(out int byteCount);
-        byte[] pcmBytes = new byte[byteCount];
-        reader.ReadBytesSafe(ref pcmBytes, byteCount, 0);
-
-        short[] pcmShorts = new short[byteCount / 2];
-        Buffer.BlockCopy(pcmBytes, 0, pcmShorts, 0, byteCount);
-        float[] samples = new float[pcmShorts.Length];
-        
-        // this seems like a lot of computation. Too bad!
-        for (int i = 0; i < pcmShorts.Length; ++i)
-            samples[i] = pcmShorts[i] / (float)short.MaxValue;
-
-        // this is what "sends" the audio data to the speaker to be played back.
-        // OnAudioFilterRead will write the data in `buffer` to the output buffer.
-        //buffer = new Queue<float>();
-
-        // that means resampled should be 3x the length of samples.
-        float[] resampled = new float[(int)((float)((float)samples.Length * (float)(1/(float)sampleRatio)))];
-        //float[] resampled = new float[outputChunkSamples];
-        //float[] resampled = new float[samples.Length];
-
-        resampledLength = resampled.Length;
-
-        //float realIndex = 0;
-
-        //for (int i = 0; i < (int)((float)((float)samples.Length * (1/sampleRatio))); i++)
-        //{
-        //    if (Mathf.RoundToInt(realIndex) < samples.Length) {
-        //        resampled[i] = samples[Mathf.RoundToInt(realIndex)];
-        //    }
-        //    else
-        //    {
-        //        // The realIndex will reach 320 and that is out of bounds for the original array, which will only ever reach 319.
-        //        // At least that is my current theory.
-
-        //        //print("RESAMPLING INDEX WAS OUT OF BOUNDS! -> " + Mathf.RoundToInt(realIndex));
-        //        resampled[i] = 0f;
-        //    }
-        //    realIndex += sampleRatio;
-        //}
-
-        //for (int i = 0; i < samples.Length; i+=3)
-        //{
-        //    resampled[i] = samples[i];
-        //    resampled[i+1] = samples[i];
-        //    resampled[i+2] = samples[i];
-        //}
-
-
-        // Linear Interpolation Algorithm by ChatGPT
-        //for (int i = 0; i < resampled.Length; i++)
-        //{
-        //    realIndex = (float)i * sampleRatio;
-        //    int i0 = (int)realIndex;
-        //    int i1 = Mathf.Min(i0 + 1, samples.Length -1);
-        //    float frac = realIndex - i0;
-        //    resampled[i] = Mathf.Lerp(samples[i0], samples[i1], frac);
-        //}
-
-
-        //foreach (float sample in resampled)
-        //{
-        //buffer.Enqueue(sample);
-        //}
-
-        for (int i = 0; i < resampled.Length; i++)
+        foreach (float sample in samples)
         {
-            buffer.Enqueue(resampled[i]);
+            buffer.Enqueue(sample);
         }
-
-        //print("(I am a client) -> outputting my voice data!");
-
-        bufferSize = buffer.Count;
-        while (buffer.Count > maxBufferSize)
-        {
-            buffer.Dequeue();
-        }
-        
     }
 
     // I am very unfamiliar with how this works, so here is what I've concluded:
@@ -145,6 +73,26 @@ public class ClientVoicePlayback : NetworkBehaviour
     // channels is ignored by us for now.
     private void OnAudioFilterRead(float[] data, int channels)
     {
+        if (test)
+        {
+            print("Testing audio playback!");
+            System.Random myRandom = new System.Random();
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (float)myRandom.Next(100)/200f;
+            }
+            return;
+        }
+
+        if (buffer.Count > maxBufferSize)
+        {
+            print("I am " + OwnerClientId + " and my buffer is too large: " + buffer.Count);
+        }
+        while (buffer.Count > maxBufferSize)
+        {
+            buffer.Dequeue();
+        }
+
         // this should not be necessary if we are filling in every data-slot with data from the buffer-Queue.
         for (int i = 0; i < data.Length; i++)
         {
